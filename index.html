@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#050914">
+  <meta name="description" content="Neon Strike: survive five waves of tactical sci-fi arena combat in your browser.">
+  <title>NEON STRIKE — Protocol: Afterlight</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="game-shell">
+  <canvas id="stage" aria-label="Neon Strike 3D game scene"></canvas>
+  <div class="grain"></div><div class="vignette"></div>
+  <div id="loading" class="loading"><div class="brand-mark">N<span>/</span>S</div><div class="loading-label">INITIALIZING AFTERLIGHT PROTOCOL</div><div class="loading-track"><i id="loading-progress"></i></div><div id="loading-detail">Connecting renderer...</div></div>
+  <div class="top-line"><div><span class="tiny-sigil">✳</span> NS<span class="dim">/</span> AFTERLIGHT <span class="top-code">OPERATIONS DIVISION</span></div><div class="top-right"><span class="alive-dot"></span> SYSTEM ONLINE <span class="top-version">v2.0 // WEBGL</span></div></div>
+  <section id="menu" class="screen menu-screen hidden" aria-label="Main menu">
+    <div class="menu-side"><div class="eyebrow"><span class="squared">01</span> LIVE SIMULATION // ARENA 07</div><h1>NEON<br><em>STRIKE<span class="trademark">™</span></em></h1><div class="menu-sub"><span class="rule"></span> PROTOCOL: <strong>AFTERLIGHT</strong></div><p class="menu-description">The city never sleeps. Neither do they.<br>Enter the arena. Outlast the machine uprising.</p>
+      <div class="menu-buttons"><button id="start-btn" class="primary big"> <span class="triangle">▶</span> DEPLOY / START GAME <span class="arrow">↗</span></button><button id="continue-btn" class="menu-button" hidden><span>↻</span> CONTINUE CHECKPOINT <span class="arrow">↗</span></button><button id="settings-btn" class="menu-button"><span>⚙</span> SETTINGS <span class="arrow">↗</span></button><button id="how-btn" class="menu-button"><span>⌘</span> HOW TO PLAY <span class="arrow">↗</span></button><button id="leaderboard-btn" class="menu-button"><span>◈</span> LOCAL LEADERBOARD <span class="arrow">↗</span></button></div>
+      <div class="menu-bottom"><span class="cyan-dot"></span> SINGLE PLAYER / NO GAME SERVER <span class="small-separator">///</span> 05 WAVES <span class="small-separator">///</span> 03 LOADOUTS</div>
+    </div>
+    <div class="menu-aside"><div class="aside-indicator">◢ &nbsp; LIVE FEED // SECTOR 07</div><div class="aside-target"><span>◦</span><div class="target-center">N<br>S</div></div><div class="aside-grid"><div>THREAT LEVEL<strong>CRITICAL <span>▲</span></strong></div><div>LOCATION<strong>NEO TOKYO // 2096</strong></div><div>ENEMY SIGNALS<strong>UNKNOWN</strong></div></div><div class="aside-foot">[ ENCRYPTED UPLINK ACTIVE ] <span>● ● ● ◌</span></div></div>
+  </section>
+  <section id="hud" class="hud hidden" aria-label="Game information">
+    <div class="hud-top-left panel-glass"><div class="hud-kicker">MISSION CONTROL <span>// 07</span></div><div class="wave-row">WAVE <strong id="hud-wave">01<span>/05</span></strong></div><div class="mission" id="hud-mission">ELIMINATE HOSTILE UNITS</div><div class="enemies-left"><i class="alive-dot"></i> HOSTILES REMAINING <strong id="hud-enemies">0</strong></div></div>
+    <div class="hud-top-right panel-glass"><div class="hud-kicker">COMBAT TELEMETRY <span>LIVE</span></div><div class="score-number" id="hud-score">000000</div><div class="stats-grid"><div>KILLS <b id="hud-kills">0</b></div><div>ACCURACY <b id="hud-accuracy">0%</b></div><div>COMBO <b id="hud-combo">×1.0</b></div></div></div>
+    <div id="crosshair" class="crosshair"><i></i><i></i><i></i><i></i><span></span></div><div id="hit-marker" class="hit-marker">×</div><div id="damage-indicator" class="damage-indicator"><span aria-hidden="true">▲</span></div><div id="notification-stack" class="notification-stack"></div><div id="wave-banner" class="wave-banner hidden"><span>INCOMING HOSTILES</span><strong>WAVE 01</strong><small>ELIMINATE ALL THREATS</small></div>
+    <div class="hud-bottom-left panel-glass"><div class="bar-label">VITALS <span id="hud-health-text">100 / 100</span></div><div class="meter health"><i id="health-fill"></i></div><div class="bar-label shield-label">ENERGY SHIELD <span id="hud-shield-text">75 / 75</span></div><div class="meter shield"><i id="shield-fill"></i></div><div class="sprint-track"><span>⚡ SPRINT</span><div class="meter"><i id="sprint-fill"></i></div></div></div>
+    <div class="hud-bottom-center"><span id="hud-xp">LVL 01 // 0 XP</span><div class="xp-meter"><i id="xp-fill"></i></div></div>
+    <div class="hud-bottom-right panel-glass"><div class="weapon-top"><span id="hud-weapon">VOLT CARBINE</span><span class="cyan-dot"></span></div><div class="ammo-readout"><strong id="hud-ammo">30</strong><span>/</span><b id="hud-reserve">180</b></div><div class="weapon-footer"><span id="hud-weapon-index">01 / 03</span><span id="reload-label">ENERGY CELL LOADED</span></div><div class="reload-track"><i id="reload-fill"></i></div></div>
+    <div class="hud-mid-right"><button id="hud-pause" title="Pause game" aria-label="Pause">Ⅱ</button><button id="fullscreen" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button><div id="fps-counter" hidden>60 FPS</div></div>
+    <div class="hud-tip" id="hud-tip">WASD MOVE &nbsp; · &nbsp; SHIFT SPRINT &nbsp; · &nbsp; R RELOAD &nbsp; · &nbsp; ESC PAUSE</div>
+  </section>
+  <div id="mobile-controls" class="mobile-controls hidden"><div id="joystick" class="joystick"><div id="stick-knob"></div></div><div class="mobile-action"><button id="touch-jump">JUMP</button><button id="touch-reload">RELOAD</button><button id="touch-weapon">SWAP</button><button id="touch-fire" class="touch-fire">FIRE</button></div><div class="mobile-aim-label">DRAG RIGHT SIDE TO AIM</div></div>
+  <section id="pause" class="screen overlay-screen hidden" aria-label="Paused"><div class="dialog-panel"><div class="eyebrow">SYSTEM STATUS // STANDBY</div><h2>SIMULATION <em>PAUSED</em></h2><p>Your progress is held. The battlefield is frozen.</p><div class="stack-buttons"><button id="resume-btn" class="primary">▶ &nbsp; RESUME MISSION</button><button id="pause-settings">⚙ &nbsp; SETTINGS</button><button id="pause-controls">⌘ &nbsp; CONTROLS</button><button id="restart-btn">↻ &nbsp; RESTART MISSION</button><button id="quit-btn">← &nbsp; RETURN TO MAIN MENU</button></div><div class="micro-note">PRESS ESC TO RESUME</div></div></section>
+  <section id="results" class="screen overlay-screen hidden" aria-label="Mission results"><div class="dialog-panel result-panel"><div class="eyebrow" id="result-eyebrow">MISSION REPORT // FINAL</div><h2 id="result-title">MISSION <em>FAILED</em></h2><p id="result-subtitle">Your signal was lost in the Afterlight sector.</p><div class="final-score-label">FINAL SCORE</div><div class="final-score" id="result-score">000000</div><div class="results-grid"><div>WAVES CLEARED <b id="result-waves">0</b></div><div>ELIMINATIONS <b id="result-kills">0</b></div><div>ACCURACY <b id="result-accuracy">0%</b></div><div>SURVIVAL TIME <b id="result-time">00:00</b></div><div>PERSONAL BEST <b id="result-best">0</b></div><div>LEVEL <b id="result-level">1</b></div></div><div class="stack-buttons"><button class="primary" id="retry-btn">↻ &nbsp; TRY AGAIN</button><button id="results-menu-btn">← &nbsp; MAIN MENU</button></div></div></section>
+  <section id="dialog" class="screen overlay-screen hidden" aria-label="Dialog"><div class="dialog-panel wide-panel"><button class="close-dialog" id="dialog-close" aria-label="Close dialog">✕</button><div class="eyebrow" id="dialog-eyebrow">OPERATIONS // CONFIGURATION</div><h2 id="dialog-title">SYSTEM <em>SETTINGS</em></h2><div id="dialog-body"></div></div></section>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <div class="bottom-line"><div>© 2096 NEON STRIKE <span>///</span> ALL SYSTEMS NOMINAL</div><div>BUILT FOR THE BROWSER <span>·</span> <strong>THREE.JS</strong></div></div>
+</div>
+<script>
+window.addEventListener('error',e=>{ const el=document.getElementById('loading-detail'); if(el && !document.getElementById('loading').classList.contains('hidden')) el.textContent='Unable to load 3D engine. Check internet connection and reload.'; }); setTimeout(()=>{const l=document.getElementById('loading'); if(l && !l.classList.contains('hidden'))document.getElementById('loading-detail').textContent='Still loading? Check your network and WebGL support, then reload.';},10000);
+</script>
+<script type="module" src="./game.js"></script>
+</body>
+</html>
